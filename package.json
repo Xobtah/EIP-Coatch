@@ -1,0 +1,23 @@
+{
+  "name": "eip-coatch",
+  "version": "1.0.0",
+  "description": "SportsFun EIP's coatch application",
+  "main": "server/app.js",
+  "scripts": {
+    "start": "nodemon server/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xobtah/EIP-Coatch.git"
+  },
+  "author": "Sylvain Garant",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Xobtah/EIP-Coatch/issues"
+  },
+  "homepage": "https://github.com/Xobtah/EIP-Coatch#readme",
+  "dependencies": {
+    "express": "^4.14.1"
+  }
+}
