@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Xobtah/EIP-Coatch#readme",
   "dependencies": {
     "angular": "^1.6.1",
-    "express": "^4.14.1"
+    "express": "^4.14.1",
+    "socket.io": "^1.7.3"
   }
 }
