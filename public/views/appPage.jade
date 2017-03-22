@@ -1,0 +1,39 @@
+//
+   Created by xobtah on 21/03/17.
+
+extends layout
+
+block head
+    // EIP-Coatch
+    script(src="js/runGeneratorController.js")
+    // /EIP-Coatch
+
+    style.
+        .displayNumber { font-size: 2em; display: inline; font-weight: bold; }
+        .displayer { float: right; cursor: pointer; }
+
+mixin editRangeValueDiv(valName)
+    div.displayer
+        p.glyphicon.glyphicon-pencil &nbsp;
+        p.displayNumber= '{{planning.' + valName + '}}'
+
+block body
+    div(ng-controller="RunGenerator")
+        form#Fractionne(style="width: 600px;")
+            button.inputRight(onclick="NewPlayer()", style="float: right;") Nouveau joueur
+            h1 Effort Fractionné
+            div(ng-repeat="planning in plannings")
+                h4 Joueur {{planning._id + 1}}
+                label Durée des temps de récupération:
+                +editRangeValueDiv('recup_time')
+                input(type="range", ng-model="planning.recup_time", min="0", max="100", step="1")
+                br
+                label Durée des temps d'efforts:
+                +editRangeValueDiv('effort_time')
+                input(type="range", ng-model="planning.effort_time", min="0", max="100", step="1")
+                br
+                label Nombre de cycles:
+                +editRangeValueDiv('cycle_time')
+                input(type="range", ng-model="planning.cycle_time", min="0", max="100", step="1")
+            br
+            a.submit(ng-click="CreateAndOpenFile()", download="file.xml") Télécharger le fichier
