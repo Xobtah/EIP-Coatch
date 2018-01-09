@@ -4,36 +4,39 @@
 extends layout
 
 block head
+    // FontAwesome
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+    // /FontAwesome
+
     // EIP-Coatch
     script(src="js/runGeneratorController.js")
+    link(rel="stylesheet" href="css/submitButton.css")
     // /EIP-Coatch
 
     style.
         .displayNumber { font-size: 2em; display: inline; font-weight: bold; }
         .displayer { float: right; cursor: pointer; }
 
-mixin editRangeValueDiv(valName)
+mixin editRangeValueDiv(valTitle, valName)
+    label #{valTitle}
     div.displayer
         p.glyphicon.glyphicon-pencil &nbsp;
         p.displayNumber= '{{planning.' + valName + '}}'
+    input(type="range", ng-model="planning."+valName, min="0", max="100", step="1")
+    br
 
 block body
     div(ng-controller="RunGenerator")
         form#Fractionne(style="width: 600px;")
-            button.inputRight(onclick="NewPlayer()", style="float: right;") Nouveau joueur
+            button.btn.inputRight(ng-click="NewPlayer()", style="float: right;")
+                span.glyphicon.glyphicon-plus &nbsp;
+                p(style="display: inline;") Nouveau joueur
             h1 Effort Fractionné
             div(ng-repeat="planning in plannings")
+                hr(ng-if="planning._id")
                 h4 Joueur {{planning._id + 1}}
-                label Durée des temps de récupération:
-                +editRangeValueDiv('recup_time')
-                input(type="range", ng-model="planning.recup_time", min="0", max="100", step="1")
-                br
-                label Durée des temps d'efforts:
-                +editRangeValueDiv('effort_time')
-                input(type="range", ng-model="planning.effort_time", min="0", max="100", step="1")
-                br
-                label Nombre de cycles:
-                +editRangeValueDiv('cycle_time')
-                input(type="range", ng-model="planning.cycle_time", min="0", max="100", step="1")
-            br
-            a.submit(ng-click="CreateAndOpenFile()", download="file.xml") Télécharger le fichier
+                +editRangeValueDiv('Durée des temps de récupération:', 'recup_time')
+                +editRangeValueDiv('Durée des temps d\'efforts:', 'effort_time')
+                +editRangeValueDiv('Nombre de cycles:', 'cycle_time')
+            center
+                button.submitButton(ng-click="CreateAndOpenFile();")

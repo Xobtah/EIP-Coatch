@@ -15,9 +15,11 @@ module.exports = app => {
             res.render('userPage');
         })
         .post('/api/file', (req, res) => {
-            if (!req.files)
-                return (res.status(400).send('No files were uploaded.'));
-            return (res.status(200).send('OK'));
+            setTimeout(_ => {
+                if (!req.files)
+                    return (res.status(400).send('No files were uploaded.'));
+                return (res.status(200).send('OK'));
+            }, 2000);
         });
 
 };

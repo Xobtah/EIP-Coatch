@@ -4,23 +4,21 @@
 
 eipCoatch.controller('RunGenerator', ['$scope', '$http', ($scope, $http) => {
 
-    $scope.plannings = [{
-        _id: 0,
-        recup_time: 0,
-        effort_time: 0,
-        cycle_time: 0
-    }];
-
-    this.NewPlayer = function () {
-        $scope.plannings.push({
-            _id: $scope.plannings.length,
-            recup_time: 0,
-            effort_time: 0,
-            cycle_time: 0
-        });
+    let Plan = function (id) {
+        this._id = id;
+        this.recup_time = 0;
+        this.effort_time = 0;
+        this.cycle_time = 0;
     };
 
-    $scope.CreateAndOpenFile = function () {
+    $scope.plannings = [new Plan(0)];
+
+    $scope.NewPlayer = _ => {
+        $scope.plannings.push(new Plan($scope.plannings.length));
+    };
+
+    $scope.CreateAndOpenFile = _ => {
+        this.SubmitButtonClick();
         let filename = "file.xml";
         let xmltext = "<?xml version='1.0'?>\r\n";
         $scope.plannings.forEach(e => {
@@ -30,7 +28,7 @@ eipCoatch.controller('RunGenerator', ['$scope', '$http', ($scope, $http) => {
         });
         xmltext += "<tps_total></tps_total>";
         let pom = document.createElement('a');
-        let bb = new Blob([xmltext], {type: 'text/plain'});
+        let bb = new Blob([xmltext], { type: 'text/plain' });
         let fd = new FormData();
         let file = new File([bb], filename);
 
@@ -47,13 +45,36 @@ eipCoatch.controller('RunGenerator', ['$scope', '$http', ($scope, $http) => {
         $http({
             method: 'POST',
             url: '/api/file',
-            data: fd,
+            data: 'test',
             headers: { 'Content-Type': undefined }
         }).then(res => {
             console.log(res);
+            this.SubmitButtonValidate();
         }, res => {
-            console.log(res)
+            console.log(res);
+            this.SubmitButtonError();
         });
+    };
+
+    this.SubmitButtonClick = _ => {
+        $(".submitButton").addClass("onclic");
+    };
+
+    this.SubmitButtonValidate = _ => {
+        $(".submitButton").removeClass("onclic");
+        $(".submitButton").addClass("validate");
+        setTimeout(this.SubmitButtonCallback, 1500);
+    };
+
+    this.SubmitButtonError = _ => {
+        $(".submitButton").removeClass("onclic");
+        $(".submitButton").addClass("error");
+        setTimeout(this.SubmitButtonCallback, 1500);
+    };
+
+    this.SubmitButtonCallback = _ => {
+        $(".submitButton").removeClass("validate");
+        $(".submitButton").removeClass("error");
     };
 
 }]);
